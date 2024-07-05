@@ -18,11 +18,13 @@ export default function HomeScreen() {
   const [isPaused, setPaused] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
+    const timerId = setTimeout(() => {
       if (!isPaused && secondsRemaining > 0) {
         setSecondsRemaining(secondsRemaining - 1);
       }
     }, 1000);
+
+    return () => clearTimeout(timerId);
   }, [secondsRemaining]);
 
   return (
