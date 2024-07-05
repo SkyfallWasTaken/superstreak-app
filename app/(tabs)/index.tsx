@@ -1,21 +1,24 @@
 import { Image, StyleSheet, Platform, View, Text, Button } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { secondsToMMSS } from "../util";
+import CircularProgress from "react-native-circular-progress-indicator";
 
 export default function HomeScreen() {
-  const [secondsRemaining, setSecondsRemaining] = useState(10);
+  const startingSeconds = 60;
+  const [secondsRemaining, setSecondsRemaining] = useState(startingSeconds / 2);
   const [isPaused, setPaused] = useState(false);
-  const mmssRemaining = secondsToMMSS(secondsRemaining);
 
-  const unsubscribe = setTimeout(() => {
-    const newTime = secondsRemaining - 1;
-    if (newTime >= 0 && !isPaused) {
-      setSecondsRemaining(newTime);
-    } else {
-      clearTimeout(unsubscribe);
-    }
-  }, 1000);
+  useEffect(() => {
+    let interval = setInterval(() => {
+      setSecondsRemaining((lastTimerCount) => {
+        lastTimerCount <= 1 && clearInterval(interval);
+        return lastTimerCount - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <View
@@ -26,16 +29,27 @@ export default function HomeScreen() {
         backgroundColor: "#25292e",
       }}
     >
-      <Text style={{ color: "#fff", fontSize: 48, fontWeight: "bold" }}>
-        {mmssRemaining}
-      </Text>
+      <CircularProgress
+        value={secondsRemaining}
+        radius={120}
+        maxValue={startingSeconds}
+        initialValue={secondsRemaining}
+        progressValueColor={"#fff"}
+        activeStrokeWidth={15}
+        inActiveStrokeWidth={15}
+        duration={500}
+      />
+
       <View>
         <Button
           title={!isPaused ? "Pause" : "Play"}
           disabled={secondsRemaining === 0}
           onPress={() => setPaused(!isPaused)}
         ></Button>
-        <Button title="Reset" onPress={() => setSecondsRemaining(10)} />
+        <Button
+          title="Reset"
+          onPress={() => setSecondsRemaining(startingSeconds)}
+        />
       </View>
     </View>
   );
