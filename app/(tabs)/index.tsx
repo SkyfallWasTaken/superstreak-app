@@ -1,4 +1,12 @@
-import { Image, StyleSheet, Platform, View, Text, Button } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Platform,
+  View,
+  Text,
+  Button,
+  Pressable,
+} from "react-native";
 import { useEffect, useState } from "react";
 
 import { secondsToMMSS } from "../util";
@@ -41,35 +49,29 @@ export default function HomeScreen() {
       />
 
       <View>
-        <Button
-          title={!isPaused ? "Pause" : "Play"}
+        <Pressable
+          style={styles.button}
           disabled={secondsRemaining === 0}
           onPress={() => setPaused(!isPaused)}
-        ></Button>
-        <Button
-          title="Reset"
+        >
+          <Text>{!isPaused ? "Pause" : "Play"}</Text>
+        </Pressable>
+        <Pressable
+          style={styles.button}
           onPress={() => setSecondsRemaining(startingSeconds)}
-        />
+        >
+          <Text>Reset</Text>
+        </Pressable>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: "absolute",
+  button: {
+    backgroundColor: "#fff",
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
   },
 });
