@@ -13,20 +13,17 @@ import { secondsToMMSS } from "../util";
 import CircularProgress from "react-native-circular-progress-indicator";
 
 export default function HomeScreen() {
-  const startingSeconds = 60;
+  const startingSeconds = 10;
   const [secondsRemaining, setSecondsRemaining] = useState(startingSeconds / 2);
   const [isPaused, setPaused] = useState(false);
 
   useEffect(() => {
-    let interval = setInterval(() => {
-      setSecondsRemaining((lastTimerCount) => {
-        lastTimerCount <= 1 && clearInterval(interval);
-        return lastTimerCount - 1;
-      });
+    setTimeout(() => {
+      if (!isPaused && secondsRemaining > 0) {
+        setSecondsRemaining(secondsRemaining - 1);
+      }
     }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
+  }, [secondsRemaining]);
 
   return (
     <View
