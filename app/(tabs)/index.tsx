@@ -7,7 +7,7 @@ import {
   Button,
   Pressable,
 } from "react-native";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { secondsToMMSS } from "../util";
 import CircularProgress from "react-native-circular-progress-indicator";
