@@ -33,7 +33,7 @@ export default function HomeScreen() {
         <Button
           title={!isPaused ? "Pause" : "Play"}
           disabled={secondsRemaining === 0}
-          onPress={() => setSecondsRemaining(10)}
+          onPress={() => setPaused(!isPaused)}
         ></Button>
         <Button title="Reset" onPress={() => setSecondsRemaining(10)} />
       </View>
